@@ -1,0 +1,30 @@
+version : '3'
+
+services : 
+  open_logs :
+    build: .
+    environment: 
+      broker : broker:9092
+      open_topic : open_topic
+      my_logs : open_data
+    
+
+  json_parse:
+    build: ./JsonParse 
+    environment: 
+      broker: broker:9092
+      source: open_topic
+      destination: parsed_logs
+
+  get_ip_and_ts:
+    build: ./IP_TIMESTAMP
+    environment:
+      broker: broker:9092
+      source: parsed_logs
+      destination : log_ip_ts
+      
+
+networks:
+  default:
+    external:
+      name: kafka-network

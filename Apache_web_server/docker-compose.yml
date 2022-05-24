@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  httpd:
+    image: modified_logs
+    build:
+      context: ./build
+      dockerfile: Dockerfile
+    ports:
+      - 8080:80
+    volumes:
+      - ./www:/var/www
+      - ./conf/vhosts:/etc/apache2/sites-enabled
+      - ./logs/httpd:/var/log/apache2
